@@ -5,8 +5,25 @@ import 'package:practical_test/app/data/apis/api_methods/http_methods.dart';
 import 'package:http/http.dart' as http;
 
 import '../api_constants/api_url_constants.dart';
+import '../api_model/ProductListModel.dart';
 
 class ApiMethods{
+  static Future<List<Products>?> mainCategories({
+    void Function(int)? checkResponse,
+    Map<String, dynamic>? bodyParams,
+  }) async {
+    List<Products>? mainCategoriesModel;
+    http.Response? response = await MyHttp.getMethod(
+      url: ApiUrlConstants.endPointOfProductList,
+      checkResponse: checkResponse,
+    );
+    if (response != null) {
+      final data = ProductList.fromJson(jsonDecode(response.body)) ;
+      mainCategoriesModel=data.products;
+      return mainCategoriesModel;
+    }
+    return null;
+  }
   // static Future<http.Response?> doctorsUpdateDoctorProfile({
   //   void Function(int)? checkResponse,
   //   required Map<String, dynamic> bodyParams,

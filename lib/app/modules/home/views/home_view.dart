@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:practical_test/common/progress_bar.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../../common/common_widgets.dart';
+import '../../../data/apis/api_model/ProductListModel.dart';
 import '../../../data/constants/image_constants.dart';
 import '../../../data/constants/string_constants.dart';
 import '../controllers/home_controller.dart';
@@ -13,192 +15,58 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.px),
-        child: ListView(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return  Obx(() {
+      controller.count.value;
+        return ProgressBar(
+          inAsyncCall: controller.inAsyncCall.value,
+          child: Scaffold(
+            body: Column(
               children: [
-                SizedBox(height: 40.px),
-                Text(
-                  StringConstants.welcomeToFertileMate,
-                  style: Theme.of(context)
-                      .textTheme
-                      .displayMedium
-                      ?.copyWith(fontSize: 18.px, fontWeight: FontWeight.w600),
-                ),
-                SizedBox(height: 12.px),
-                Card(
-                  child: Padding(
-                    padding: EdgeInsets.all(12.px),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(30.px),
-                            child: Image.asset(
-                              ImageConstants.imageEmailCheck,
-                              height: 60.px,
-                              width: 60.px,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          SizedBox(height: 10.px),
-                          Text(
-                            StringConstants.boostYourFertilityToday,
-                            style: Theme.of(context)
-                                .textTheme
-                                .displayMedium
-                                ?.copyWith(
-                                    fontSize: 20.px,
-                                    color: Theme.of(context).primaryColor),
-                          ),
-                          SizedBox(height: 2.px),
-                          Text(
-                            StringConstants.comprehensiveHealthAssessments,
-                            style: Theme.of(context)
-                                .textTheme
-                                .displayMedium
-                                ?.copyWith(
-                                  fontSize: 14.px,
-                                ),
-                          ),
-                          SizedBox(height: 2.px),
-                          Text(
-                            StringConstants.aIDrivenFertilityAnalysis,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium
-                                ?.copyWith(fontSize: 10.px),
-                          ),
-                          SizedBox(height: 20.px),
-                          CommonWidgets.commonElevatedButton(
-                            onPressed: () =>
-                                controller.clickOnGetStartedButton(),
-                            child: Text(
-                              StringConstants.getStarted,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineSmall
-                                  ?.copyWith(fontWeight: FontWeight.w700),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 12.px),
-                Text(
-                  StringConstants.yourReproductiveHealthJourney,
-                  style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                        fontSize: 14.px,
-                      ),
-                ),
-                SizedBox(height: 12.px),
-                ListView.builder(
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) => ListTile(
-                      onTap: () => controller.clickOnListTile(index: index),
-                          leading: ClipRRect(
-                            borderRadius: BorderRadius.circular(20.px),
-                            child: Image.asset(
-                              controller.listOfReproductiveImages[index],
-                              height: 40.px,
-                              width: 40.px,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          title: Text(
-                            controller.listOfReproductive[index],
-                            style: Theme.of(context)
-                                .textTheme
-                                .displayMedium
-                                ?.copyWith(
-                                  fontSize: 14.px,
-                                ),
-                          ),
-                        ),
-                    itemCount: controller.listOfReproductive.length),
-                SizedBox(height: 12.px),
-                Text(
-                  StringConstants.support,
-                  style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                        fontSize: 14.px,
-                      ),
-                ),
-                SizedBox(height: 12.px),
-                Card(
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 3,
-                          child: Image.asset(
-                            ImageConstants.imageDr,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        Expanded(
-                          flex: 4,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    height: 16.px,
-                                    width: 16.px,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(8.px),
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onError),
-                                  ),
-                                  SizedBox(width: 8.px),
-                                  Text(
-                                    StringConstants.availableNow,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .displayMedium
-                                        ?.copyWith(fontSize: 18.px),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 10.px),
-                              CommonWidgets.commonElevatedButton(
-                                wantContentSizeButton: true,
-                                onPressed: () =>
-                                    controller.clickOnGetStartedButton(),
-                                child: Text(
-                                  StringConstants.chatNow,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineSmall
-                                      ?.copyWith(fontWeight: FontWeight.w700),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 12.px),
+                // FutureBuilder<List<Products>>(
+                //   future: futureTodos,
+                //   builder: (context,snapshot){
+                //     if(snapshot.connectionState == ConnectionState.waiting){
+                //       return const Center(child: CircularProgressIndicator(),);
+                //     }
+                //     else{
+                //       final todos= snapshot.data;
+                //       // print("todos------todos------${todos!.length}") ;
+                //       return todos==null?const Center(
+                //         child: Text("No todos"),
+                //       ):ListView.separated(itemBuilder: (context,index){
+                //         final todo=todos![index];
+                //         // final subtitle = DateFormat('dd MMM yyyy').format(DateTime.parse(todo.updatedAt??todo.createdAt));
+                //         return ListTile(
+                //           onTap: (){
+                //             // showDialog(context: context, builder: (_){
+                //             //   return CreateTodoWidget(
+                //             //       todo: todo,
+                //             //       onSubmit:(title)async{
+                //             //         await todoDB.update(id:todo.id??0,title: title
+                //             //             .toString());
+                //             //         if (!mounted) return;
+                //             //         fetchTodos();
+                //             //         Navigator.of(context).pop();
+                //             //       }
+                //             //   );
+                //             // });
+                //           },
+                //           title: Text(todo.title ?? 'k'),
+                //           subtitle: Text("subtitle"),
+                //           trailing: IconButton(onPressed: () async {
+                //             await todoDB.delete(todo.id??0);
+                //             fetchTodos();
+                //           },icon: Icon(Icons.delete,color: Colors.red,)),
+                //         );
+                //       }, separatorBuilder: (context,index)=>const SizedBox(height: 12,), itemCount: todos!=null?todos.length:0);
+                //     }
+                //   },
+                // )
               ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      }
     );
   }
 }

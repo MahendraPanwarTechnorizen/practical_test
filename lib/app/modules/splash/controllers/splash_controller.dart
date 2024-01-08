@@ -28,6 +28,6 @@ class SplashController extends GetxController{
   void increment() => count.value++;
 
   Future<void> manageSession() async {
-    Get.offAllNamed(Routes.LOGIN);
+    Get.offAllNamed(Routes.HOME);
   }
 }
